@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ben</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -13,23 +16,52 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Inter', sans-serif;
       padding: 2rem;
+      font-size: 104%;
     }
 
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 2.5rem;
+    .wrapper {
       width: 100%;
-      max-width: 480px;
+      max-width: 500px;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 5px;
+    }
+
+    /* --- Logo panel --- */
+    .logo-panel {
+      background: #fff;
+      padding: 1.1rem 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+      transition: max-height 0.55s cubic-bezier(0.4,0,0.2,1),
+                  padding 0.55s cubic-bezier(0.4,0,0.2,1),
+                  opacity 0.4s ease;
+      max-height: 200px;
+    }
+
+    .logo-panel img {
+      width: 50%;
+      height: auto;
+      display: block;
+    }
+
+    /* --- Form card --- */
+    .card {
+      background: #fff;
+      padding: 2.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.3rem;
+      position: relative;
+      overflow: hidden;
     }
 
     .card-title {
-      font-size: 1.4rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: #111;
     }
@@ -38,19 +70,19 @@
     .toggle-group {
       display: flex;
       background: #f1f1f1;
-      border-radius: 10px;
-      padding: 4px;
-      gap: 4px;
+      padding: 3px;
+      gap: 3px;
+      height: 38px;
     }
 
     .toggle-group input[type="radio"] { display: none; }
 
     .toggle-group label {
       flex: 1;
-      text-align: center;
-      padding: 0.5rem 0.75rem;
-      border-radius: 7px;
-      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
       font-weight: 500;
       color: #555;
       cursor: pointer;
@@ -59,118 +91,236 @@
     }
 
     .toggle-group input[type="radio"]:checked + label {
-      background: #2d8c4e;
+      background: #115F5A;
       color: #fff;
     }
 
     /* --- Field label --- */
-    .field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .field { display: flex; flex-direction: column; gap: 0.35rem; }
 
-    .field label {
-      font-size: 0.8rem;
+    .field > label {
+      font-size: 0.74rem;
       font-weight: 600;
       color: #888;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
 
-    /* --- Input & Select & Textarea --- */
+    /* --- Input & Select --- */
     .field input,
-    .field select,
+    .field select {
+      width: 100%;
+      height: 38px;
+      padding: 0 0.85rem;
+      border: none;
+      border-radius: 0;
+      font-size: 0.88rem;
+      color: #111;
+      background: #f1f1f1;
+      outline: none;
+      font-family: inherit;
+    }
+
     .field textarea {
       width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1.5px solid #e0e0e0;
-      border-radius: 10px;
-      font-size: 0.95rem;
+      padding: 0.65rem 0.85rem;
+      border: none;
+      border-radius: 0;
+      font-size: 0.88rem;
       color: #111;
-      background: #fafafa;
+      background: #f1f1f1;
       outline: none;
-      transition: border-color 0.2s;
       font-family: inherit;
+      resize: vertical;
+      min-height: 84px;
     }
 
     .field input:focus,
     .field select:focus,
     .field textarea:focus {
-      border-color: #2d8c4e;
-      background: #fff;
-    }
-
-    .field textarea {
-      resize: vertical;
-      min-height: 100px;
+      background: #e8e8e8;
     }
 
     .field select {
       appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 1rem center;
-      padding-right: 2.5rem;
+      background-position: right 0.85rem center;
+      padding-right: 2rem;
       cursor: pointer;
     }
 
     /* --- Submit --- */
     .btn-submit {
       width: 100%;
-      padding: 0.85rem;
-      background: #2d8c4e;
+      height: 38px;
+      background: #115F5A;
       color: #fff;
       border: none;
-      border-radius: 10px;
-      font-size: 1rem;
+      border-radius: 0;
+      font-size: 0.88rem;
       font-weight: 600;
       cursor: pointer;
+      font-family: inherit;
       transition: background 0.2s, transform 0.1s;
     }
 
-    .btn-submit:hover { background: #256e3e; }
+    .btn-submit:hover { background: #0d4a46; }
     .btn-submit:active { transform: scale(0.98); }
+
+    /* ===================== */
+    /* --- Success state --- */
+    /* ===================== */
+
+    .form-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.3rem;
+      transition: opacity 0.3s ease;
+    }
+
+    .success-msg {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2.2rem;
+      opacity: 0;
+    }
+
+    .success-msg span {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #111;
+    }
+
+    /* submitted state */
+    .wrapper.submitted .logo-panel {
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      opacity: 0;
+    }
+
+    .wrapper.submitted .form-content {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .wrapper.submitted .card {
+      padding: 0;
+    }
+
+    .wrapper.submitted .success-msg {
+      display: flex;
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="card-title">New Campaign</div>
+  <div class="wrapper" id="wrapper">
 
-    <!-- Deadline toggle -->
-    <div class="field">
-      <label>Deadline</label>
-      <div class="toggle-group">
-        <input type="radio" name="deadline" id="urgent" value="urgent">
-        <label for="urgent">Urgent</label>
+    <!-- Logos panel -->
+    <div class="logo-panel">
+      <img src="logos.svg" alt="logos">
+    </div>
 
-        <input type="radio" name="deadline" id="week" value="week" checked>
-        <label for="week">Week</label>
+    <!-- Form card -->
+    <div class="card" id="card">
 
-        <input type="radio" name="deadline" id="no-deadline" value="no-deadline">
-        <label for="no-deadline">No deadline</label>
+      <div class="form-content" id="formContent">
+        <div class="card-title">New Campaign</div>
+
+        <!-- Deadline toggle -->
+        <div class="field">
+          <label>Deadline</label>
+          <div class="toggle-group">
+            <input type="radio" name="deadline" id="urgent" value="urgent">
+            <label for="urgent">Urgent</label>
+
+            <input type="radio" name="deadline" id="week" value="week" checked>
+            <label for="week">Week</label>
+
+            <input type="radio" name="deadline" id="no-deadline" value="no-deadline">
+            <label for="no-deadline">No deadline</label>
+          </div>
+        </div>
+
+        <!-- Campaign name -->
+        <div class="field">
+          <label>Campaign name</label>
+          <input type="text" placeholder="Enter campaign name">
+        </div>
+
+        <!-- Purpose dropdown -->
+        <div class="field">
+          <label>What is the purpose</label>
+          <select>
+            <option value="" disabled selected>Select purpose</option>
+            <option value="brand-awareness">Brand awareness</option>
+            <option value="performance">Performance</option>
+          </select>
+        </div>
+
+        <!-- References -->
+        <div class="field">
+          <label>Any references</label>
+          <textarea placeholder="Links, descriptions, inspiration…"></textarea>
+        </div>
+
+        <button class="btn-submit" id="submitBtn">Submit</button>
       </div>
-    </div>
 
-    <!-- Campaign name -->
-    <div class="field">
-      <label>Campaign name</label>
-      <input type="text" placeholder="Enter campaign name">
-    </div>
+      <div class="success-msg" id="successMsg">
+        <span>Goody, Speak Soon!</span>
+      </div>
 
-    <!-- Purpose dropdown -->
-    <div class="field">
-      <label>What is the purpose</label>
-      <select>
-        <option value="" disabled selected>Select purpose</option>
-        <option value="brand-awareness">Brand awareness</option>
-        <option value="performance">Performance</option>
-      </select>
     </div>
-
-    <!-- References -->
-    <div class="field">
-      <label>Any references</label>
-      <textarea placeholder="Links, descriptions, inspiration…"></textarea>
-    </div>
-
-    <button class="btn-submit">Submit</button>
   </div>
+
+  <script>
+    document.getElementById('submitBtn').addEventListener('click', function () {
+      const wrapper = document.getElementById('wrapper');
+      const card = document.getElementById('card');
+      const formContent = document.getElementById('formContent');
+      const successMsg = document.getElementById('successMsg');
+      const logoPanel = document.querySelector('.logo-panel');
+
+      // lock card height
+      card.style.height = card.offsetHeight + 'px';
+      card.style.overflow = 'hidden';
+
+      // fade out form content
+      formContent.style.transition = 'opacity 0.25s ease';
+      formContent.style.opacity = '0';
+
+      setTimeout(() => {
+        // remove form from flow
+        formContent.style.display = 'none';
+        card.style.padding = '0';
+
+        // measure success msg
+        successMsg.style.display = 'flex';
+        successMsg.style.opacity = '0';
+        const targetH = successMsg.offsetHeight;
+
+        // animate card collapsing + logo fading
+        card.style.transition = 'height 0.5s cubic-bezier(0.4,0,0.2,1)';
+        card.style.height = targetH + 'px';
+
+        logoPanel.style.transition = 'opacity 0.3s ease, max-height 0.5s cubic-bezier(0.4,0,0.2,1), padding 0.5s cubic-bezier(0.4,0,0.2,1)';
+        logoPanel.style.opacity = '0';
+        logoPanel.style.maxHeight = '0';
+        logoPanel.style.paddingTop = '0';
+        logoPanel.style.paddingBottom = '0';
+
+        // fade in success text after collapse
+        setTimeout(() => {
+          successMsg.style.transition = 'opacity 0.4s ease';
+          successMsg.style.opacity = '1';
+        }, 350);
+
+      }, 270);
+    });
+  </script>
 </body>
 </html>
