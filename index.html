@@ -557,6 +557,12 @@
           <input type="text" placeholder="Who is responsible?">
         </div>
 
+        <!-- Purpose -->
+        <div class="field">
+          <label>What's the purpose</label>
+          <input type="text" placeholder="Describe the purpose">
+        </div>
+
         <!-- Priority toggle -->
         <div class="field">
           <label>Priority</label>
@@ -910,7 +916,8 @@
         successMsg.style.opacity = '0';
         const targetH = successMsg.offsetHeight;
 
-        card.style.transition = 'height 0.5s cubic-bezier(0.4,0,0.2,1)';
+        card.style.borderRadius = '14px';
+        card.style.transition = 'height 0.5s cubic-bezier(0.4,0,0.2,1), border-radius 0.5s cubic-bezier(0.4,0,0.2,1)';
         card.style.height = targetH + 'px';
 
         logoPanel.style.transition = 'opacity 0.3s ease, max-height 0.5s cubic-bezier(0.4,0,0.2,1), padding 0.5s cubic-bezier(0.4,0,0.2,1)';
