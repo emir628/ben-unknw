@@ -4,10 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ben</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: 'Platform';
+      src: url('fonts/PLATFORM-MEDIUM.OTF') format('opentype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Saans';
+      src: url('fonts/SAANS-MEDIUM.TTF') format('truetype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -16,22 +29,23 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Saans', sans-serif;
       padding: 2rem;
       font-size: 104%;
     }
 
     .wrapper {
       width: 100%;
-      max-width: 500px;
+      max-width: 520px;
       display: flex;
       flex-direction: column;
       gap: 5px;
     }
 
-    /* --- Logo panel --- */
+    /* --- Logo panel (top corners only) --- */
     .logo-panel {
       background: #fff;
+      border-radius: 14px 14px 0 0;
       padding: 1.1rem 1.8rem;
       display: flex;
       align-items: center;
@@ -49,30 +63,38 @@
       display: block;
     }
 
-    /* --- Form card --- */
+    /* --- Form card (bottom corners only) --- */
     .card {
       background: #fff;
+      border-radius: 0 0 14px 14px;
       padding: 2.2rem;
       display: flex;
       flex-direction: column;
       gap: 1.3rem;
       position: relative;
-      overflow: hidden;
+      overflow: visible;
     }
 
     .card-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #111;
+      font-family: 'Platform', sans-serif;
+      font-size: 2rem;
+      font-weight: 500;
+      color: #0e2e2c;
     }
 
     /* --- Toggle switch --- */
     .toggle-group {
       display: flex;
-      background: #f1f1f1;
-      padding: 3px;
-      gap: 3px;
-      height: 38px;
+      border: 1.5px solid #c0c0c0;
+      border-radius: 10px;
+      padding: 4px;
+      gap: 4px;
+      height: 48px;
+      transition: box-shadow 0.2s;
+    }
+
+    .toggle-group:hover {
+      box-shadow: 0 2px 12px rgba(14, 46, 44, 0.12);
     }
 
     .toggle-group input[type="radio"] { display: none; }
@@ -82,96 +104,411 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.8rem;
+      font-size: 0.88rem;
       font-weight: 500;
-      color: #555;
+      color: #0e2e2c;
       cursor: pointer;
+      border-radius: 7px;
       transition: background 0.2s, color 0.2s;
       white-space: nowrap;
     }
 
+    .toggle-group label:hover {
+      background: #f1f1f1;
+    }
+
     .toggle-group input[type="radio"]:checked + label {
-      background: #115F5A;
+      background: #0e2e2c;
       color: #fff;
     }
 
     /* --- Field label --- */
-    .field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .field { display: flex; flex-direction: column; gap: 0.5rem; }
 
     .field > label {
-      font-size: 0.74rem;
+      font-size: 0.88rem;
       font-weight: 600;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      color: #0e2e2c;
     }
 
     /* --- Input & Select --- */
+    /* Default state: light gray border */
     .field input,
     .field select {
       width: 100%;
-      height: 38px;
-      padding: 0 0.85rem;
-      border: none;
-      border-radius: 0;
-      font-size: 0.88rem;
-      color: #111;
-      background: #f1f1f1;
+      height: 48px;
+      padding: 0 1rem;
+      border: 1.5px solid #c0c0c0;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: #0e2e2c;
+      background: #fff;
       outline: none;
       font-family: inherit;
+      transition: border-color 0.2s, border-width 0.2s, box-shadow 0.2s;
     }
 
-    .field textarea {
-      width: 100%;
-      padding: 0.65rem 0.85rem;
-      border: none;
-      border-radius: 0;
-      font-size: 0.88rem;
-      color: #111;
-      background: #f1f1f1;
-      outline: none;
-      font-family: inherit;
-      resize: vertical;
-      min-height: 84px;
+    .field input::placeholder {
+      color: #999;
     }
 
+    /* Hover: shadow */
+    .field input:hover,
+    .field select:hover {
+      box-shadow: 0 2px 12px rgba(14, 46, 44, 0.12);
+    }
+
+    /* Focus/selected: thick dark green border + shadow */
     .field input:focus,
-    .field select:focus,
-    .field textarea:focus {
-      background: #e8e8e8;
+    .field select:focus {
+      border-color: #0e2e2c;
+      border-width: 2.5px;
+      box-shadow: 0 2px 12px rgba(14, 46, 44, 0.15);
     }
 
-    .field select {
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.85rem center;
-      padding-right: 2rem;
+    /* Filled: thin dark green border */
+    .field input.filled,
+    .field select.filled {
+      border-color: #0e2e2c;
+      border-width: 1.5px;
+    }
+
+    /* --- Date row --- */
+    .date-row {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .date-row .field { flex: 1; }
+
+    /* --- Custom date picker trigger --- */
+    .date-trigger {
+      width: 100%;
+      height: 48px;
+      padding: 0 1rem;
+      border: 1.5px solid #c0c0c0;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: #0e2e2c;
+      background: #fff;
+      outline: none;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: box-shadow 0.2s;
+      user-select: none;
+    }
+
+    .date-trigger:hover {
+      box-shadow: 0 2px 12px rgba(14, 46, 44, 0.12);
+    }
+
+    .date-trigger.active {
+      border-color: #0e2e2c;
+      border-width: 2.5px;
+      box-shadow: 0 2px 12px rgba(14, 46, 44, 0.15);
+    }
+
+    .date-trigger.filled {
+      border-color: #0e2e2c;
+      border-width: 1.5px;
+    }
+
+    .date-trigger svg {
+      width: 18px;
+      height: 18px;
+      color: #0e2e2c;
+      flex-shrink: 0;
+    }
+
+    .date-trigger .date-text {
+      color: #0e2e2c;
+    }
+
+    .date-trigger .date-text.placeholder {
+      color: #999;
+    }
+
+    /* --- Calendar dropdown --- */
+    .date-field-wrap {
+      position: relative;
+    }
+
+    .cal-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      z-index: 100;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      padding: 1rem;
+      width: 300px;
+      animation: calFadeIn 0.15s ease;
+    }
+
+    .cal-dropdown.open { display: block; }
+
+    @keyframes calFadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .cal-header button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #0e2e2c;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      transition: background 0.15s;
+    }
+
+    .cal-header button:hover { background: #f1f1f1; }
+
+    .cal-selects {
+      display: flex;
+      gap: 6px;
+    }
+
+    .cal-selects select {
+      border: 1.5px solid #d0d0d0;
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      color: #0e2e2c;
+      background: #fff;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      text-align: center;
+    }
+
+    .cal-grid .cal-dow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #0e2e2c;
+      padding: 4px 0;
+    }
+
+    .cal-grid .cal-day {
+      font-size: 0.85rem;
+      color: #0e2e2c;
+      padding: 8px 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.12s;
+      border: none;
+      background: none;
+      font-family: inherit;
+    }
+
+    .cal-grid .cal-day:hover { background: #f1f1f1; }
+    .cal-grid .cal-day.selected { background: #0e2e2c; color: #fff; }
+    .cal-grid .cal-day.other-month { color: #ccc; }
+    .cal-grid .cal-day.today { font-weight: 700; }
+
+    /* --- Rich text editor --- */
+    .rte-wrap {
+      background: #fff;
+      border: 1.5px solid #c0c0c0;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .rte-wrap:hover {
+      box-shadow: 0 2px 12px rgba(14, 46, 44, 0.12);
+    }
+
+    .rte-wrap:focus-within {
+      border-color: #0e2e2c;
+      border-width: 2.5px;
+      box-shadow: 0 2px 12px rgba(14, 46, 44, 0.15);
+    }
+
+    .rte-toolbar {
+      display: flex;
+      gap: 2px;
+      padding: 6px 8px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .rte-toolbar button {
+      width: 32px;
+      height: 30px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #555;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .rte-toolbar button:hover { background: #f1f1f1; }
+
+    .rte-toolbar button.active {
+      background: #0e2e2c;
+      color: #fff;
+    }
+
+    .rte-body {
+      min-height: 90px;
+      padding: 0.7rem 1rem;
+      font-size: 0.9rem;
+      color: #0e2e2c;
+      outline: none;
+      line-height: 1.5;
+      overflow-y: auto;
+      max-height: 200px;
+    }
+
+    .rte-body:empty::before {
+      content: attr(data-placeholder);
+      color: #999;
+      pointer-events: none;
+    }
+
+    .rte-body a { color: #0e2e2c; text-decoration: underline; }
+
+    /* --- File drop zone --- */
+    .dropzone {
+      border: 2px dashed #c0c0c0;
+      border-radius: 10px;
+      background: #fff;
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: box-shadow 0.2s, background 0.2s;
+    }
+
+    .dropzone:hover {
+      box-shadow: 0 2px 12px rgba(14, 46, 44, 0.12);
+    }
+
+    .dropzone.dragover {
+      background: #f5faf9;
+      box-shadow: 0 2px 12px rgba(14, 46, 44, 0.12);
+    }
+
+    .dropzone-icon {
+      width: 32px;
+      height: 32px;
+      color: #0e2e2c;
+    }
+
+    .dropzone-text {
+      font-size: 0.82rem;
+      color: #888;
+      text-align: center;
+    }
+
+    .dropzone-text span {
+      color: #0e2e2c;
+      font-weight: 600;
+      text-decoration: underline;
       cursor: pointer;
     }
+
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 0.3rem;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f5f5f5;
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      color: #0e2e2c;
+    }
+
+    .file-item-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+      margin-right: 0.5rem;
+    }
+
+    .file-item-size {
+      color: #999;
+      font-size: 0.72rem;
+      margin-right: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .file-item-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #999;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0 2px;
+      transition: color 0.15s;
+    }
+
+    .file-item-remove:hover { color: #c00; }
 
     /* --- Submit --- */
     .btn-submit {
       width: 100%;
-      height: 38px;
-      background: #115F5A;
+      height: 48px;
+      background: #0e2e2c;
       color: #fff;
       border: none;
-      border-radius: 0;
-      font-size: 0.88rem;
+      border-radius: 10px;
+      font-size: 0.92rem;
       font-weight: 600;
       cursor: pointer;
       font-family: inherit;
-      transition: background 0.2s, transform 0.1s;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
     }
 
-    .btn-submit:hover { background: #0d4a46; }
+    .btn-submit:hover {
+      background: #1a4a46;
+      box-shadow: 0 2px 12px rgba(14, 46, 44, 0.18);
+    }
+
     .btn-submit:active { transform: scale(0.98); }
 
-    /* ===================== */
     /* --- Success state --- */
-    /* ===================== */
-
     .form-content {
       display: flex;
       flex-direction: column;
@@ -190,29 +527,7 @@
     .success-msg span {
       font-size: 1.15rem;
       font-weight: 700;
-      color: #111;
-    }
-
-    /* submitted state */
-    .wrapper.submitted .logo-panel {
-      max-height: 0;
-      padding-top: 0;
-      padding-bottom: 0;
-      opacity: 0;
-    }
-
-    .wrapper.submitted .form-content {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .wrapper.submitted .card {
-      padding: 0;
-    }
-
-    .wrapper.submitted .success-msg {
-      display: flex;
-      opacity: 1;
+      color: #0e2e2c;
     }
   </style>
 </head>
@@ -230,41 +545,93 @@
       <div class="form-content" id="formContent">
         <div class="card-title">New Campaign</div>
 
-        <!-- Deadline toggle -->
-        <div class="field">
-          <label>Deadline</label>
-          <div class="toggle-group">
-            <input type="radio" name="deadline" id="urgent" value="urgent">
-            <label for="urgent">Urgent</label>
-
-            <input type="radio" name="deadline" id="week" value="week" checked>
-            <label for="week">Week</label>
-
-            <input type="radio" name="deadline" id="no-deadline" value="no-deadline">
-            <label for="no-deadline">No deadline</label>
-          </div>
-        </div>
-
         <!-- Campaign name -->
         <div class="field">
           <label>Campaign name</label>
           <input type="text" placeholder="Enter campaign name">
         </div>
 
-        <!-- Purpose dropdown -->
+        <!-- Assigner -->
         <div class="field">
-          <label>What is the purpose</label>
-          <select>
-            <option value="" disabled selected>Select purpose</option>
-            <option value="brand-awareness">Brand awareness</option>
-            <option value="performance">Performance</option>
-          </select>
+          <label>Assigner</label>
+          <input type="text" placeholder="Who is responsible?">
         </div>
 
-        <!-- References -->
+        <!-- Priority toggle -->
         <div class="field">
-          <label>Any references</label>
-          <textarea placeholder="Links, descriptions, inspiration…"></textarea>
+          <label>Priority</label>
+          <div class="toggle-group">
+            <input type="radio" name="priority" id="high" value="high">
+            <label for="high">High</label>
+
+            <input type="radio" name="priority" id="medium" value="medium" checked>
+            <label for="medium">Medium</label>
+
+            <input type="radio" name="priority" id="low" value="low">
+            <label for="low">Low</label>
+          </div>
+        </div>
+
+        <!-- Start date / Deadline -->
+        <div class="date-row">
+          <div class="field">
+            <label>Start Date</label>
+            <div class="date-field-wrap">
+              <div class="date-trigger" id="startTrigger" data-target="startCal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span class="date-text placeholder">DD/MM/YYYY</span>
+              </div>
+              <div class="cal-dropdown" id="startCal"></div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Deadline</label>
+            <div class="date-field-wrap">
+              <div class="date-trigger" id="deadlineTrigger" data-target="deadlineCal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span class="date-text placeholder">DD/MM/YYYY</span>
+              </div>
+              <div class="cal-dropdown" id="deadlineCal"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rich text — details & references -->
+        <div class="field">
+          <label>Any other details, References</label>
+          <div class="rte-wrap">
+            <div class="rte-toolbar">
+              <button type="button" data-cmd="bold" title="Bold"><b>B</b></button>
+              <button type="button" data-cmd="italic" title="Italic"><i>I</i></button>
+              <button type="button" data-cmd="underline" title="Underline"><u>U</u></button>
+              <button type="button" data-cmd="insertUnorderedList" title="Bullet list">&bull;&thinsp;&#8801;</button>
+              <button type="button" data-cmd="createLink" title="Insert link">&#128279;</button>
+            </div>
+            <div class="rte-body" id="rteBody" contenteditable="true" data-placeholder="Links, descriptions, inspiration…"></div>
+          </div>
+        </div>
+
+        <!-- Attach files -->
+        <div class="field">
+          <label>Attach files</label>
+          <div class="dropzone" id="dropzone">
+            <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <div class="dropzone-text">Drag & drop files here or <span id="browseBtn">browse</span></div>
+          </div>
+          <input type="file" id="fileInput" multiple hidden>
+          <div class="file-list" id="fileList"></div>
         </div>
 
         <button class="btn-submit" id="submitBtn">Submit</button>
@@ -278,32 +645,271 @@
   </div>
 
   <script>
+    /* ======================== */
+    /* --- Custom Calendar --- */
+    /* ======================== */
+    const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+
+    function createCalendar(dropdownId, triggerId) {
+      const dropdown = document.getElementById(dropdownId);
+      const trigger = document.getElementById(triggerId);
+      const textEl = trigger.querySelector('.date-text');
+      let viewYear = new Date().getFullYear();
+      let viewMonth = new Date().getMonth();
+      let selectedDate = null;
+
+      function pad(n) { return n < 10 ? '0' + n : n; }
+
+      function render() {
+        const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+        const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+        const prevDays = new Date(viewYear, viewMonth, 0).getDate();
+        const today = new Date();
+
+        // Month/Year selects
+        let monthOpts = MONTHS.map((m, i) =>
+          '<option value="' + i + '"' + (i === viewMonth ? ' selected' : '') + '>' + m + '</option>'
+        ).join('');
+
+        let yearOpts = '';
+        for (let y = viewYear - 5; y <= viewYear + 5; y++) {
+          yearOpts += '<option value="' + y + '"' + (y === viewYear ? ' selected' : '') + '>' + y + '</option>';
+        }
+
+        let html = '<div class="cal-header">';
+        html += '<button type="button" class="cal-prev">&lsaquo;</button>';
+        html += '<div class="cal-selects">';
+        html += '<select class="cal-month-sel">' + monthOpts + '</select>';
+        html += '<select class="cal-year-sel">' + yearOpts + '</select>';
+        html += '</div>';
+        html += '<button type="button" class="cal-next">&rsaquo;</button>';
+        html += '</div>';
+
+        html += '<div class="cal-grid">';
+        DAYS.forEach(d => { html += '<div class="cal-dow">' + d + '</div>'; });
+
+        // Previous month days
+        for (let i = firstDay - 1; i >= 0; i--) {
+          html += '<button type="button" class="cal-day other-month" data-day="prev-' + (prevDays - i) + '">' + (prevDays - i) + '</button>';
+        }
+
+        // Current month days
+        for (let d = 1; d <= daysInMonth; d++) {
+          let cls = 'cal-day';
+          if (d === today.getDate() && viewMonth === today.getMonth() && viewYear === today.getFullYear()) cls += ' today';
+          if (selectedDate && d === selectedDate.getDate() && viewMonth === selectedDate.getMonth() && viewYear === selectedDate.getFullYear()) cls += ' selected';
+          html += '<button type="button" class="' + cls + '" data-day="' + d + '">' + d + '</button>';
+        }
+
+        // Next month days
+        const totalCells = firstDay + daysInMonth;
+        const remaining = (7 - (totalCells % 7)) % 7;
+        for (let d = 1; d <= remaining; d++) {
+          html += '<button type="button" class="cal-day other-month" data-day="next-' + d + '">' + d + '</button>';
+        }
+
+        html += '</div>';
+        dropdown.innerHTML = html;
+
+        // Events
+        dropdown.querySelector('.cal-prev').addEventListener('click', e => {
+          e.stopPropagation();
+          viewMonth--;
+          if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+          render();
+        });
+
+        dropdown.querySelector('.cal-next').addEventListener('click', e => {
+          e.stopPropagation();
+          viewMonth++;
+          if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+          render();
+        });
+
+        dropdown.querySelector('.cal-month-sel').addEventListener('change', function(e) {
+          e.stopPropagation();
+          viewMonth = parseInt(this.value);
+          render();
+        });
+
+        dropdown.querySelector('.cal-year-sel').addEventListener('change', function(e) {
+          e.stopPropagation();
+          viewYear = parseInt(this.value);
+          render();
+        });
+
+        dropdown.querySelectorAll('.cal-day:not(.other-month)').forEach(btn => {
+          btn.addEventListener('click', e => {
+            e.stopPropagation();
+            const day = parseInt(btn.dataset.day);
+            selectedDate = new Date(viewYear, viewMonth, day);
+            textEl.textContent = pad(day) + '/' + pad(viewMonth + 1) + '/' + viewYear;
+            textEl.classList.remove('placeholder');
+            trigger.classList.add('filled');
+            close();
+          });
+        });
+      }
+
+      function open() {
+        document.querySelectorAll('.cal-dropdown.open').forEach(d => {
+          d.classList.remove('open');
+          d.parentElement.querySelector('.date-trigger').classList.remove('active');
+        });
+        dropdown.classList.add('open');
+        trigger.classList.add('active');
+        render();
+      }
+
+      function close() {
+        dropdown.classList.remove('open');
+        trigger.classList.remove('active');
+      }
+
+      trigger.addEventListener('click', e => {
+        e.stopPropagation();
+        if (dropdown.classList.contains('open')) close();
+        else open();
+      });
+
+      dropdown.addEventListener('click', e => e.stopPropagation());
+    }
+
+    // Close calendars on outside click
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.cal-dropdown.open').forEach(d => {
+        d.classList.remove('open');
+        d.parentElement.querySelector('.date-trigger').classList.remove('active');
+      });
+    });
+
+    createCalendar('startCal', 'startTrigger');
+    createCalendar('deadlineCal', 'deadlineTrigger');
+
+    /* --- Auto "filled" class on text inputs --- */
+    document.querySelectorAll('.field input[type="text"]').forEach(input => {
+      input.addEventListener('blur', () => {
+        input.classList.toggle('filled', input.value.trim() !== '');
+      });
+    });
+
+    /* --- Rich Text Editor --- */
+    const rteBody = document.getElementById('rteBody');
+    const toolbarBtns = document.querySelectorAll('.rte-toolbar button');
+
+    toolbarBtns.forEach(btn => {
+      btn.addEventListener('mousedown', e => e.preventDefault());
+      btn.addEventListener('click', () => {
+        const cmd = btn.dataset.cmd;
+        if (cmd === 'createLink') {
+          const url = prompt('Enter URL:');
+          if (url) document.execCommand(cmd, false, url);
+        } else {
+          document.execCommand(cmd, false, null);
+        }
+        rteBody.focus();
+        updateToolbar();
+      });
+    });
+
+    rteBody.addEventListener('keyup', updateToolbar);
+    rteBody.addEventListener('mouseup', updateToolbar);
+
+    function updateToolbar() {
+      toolbarBtns.forEach(btn => {
+        const cmd = btn.dataset.cmd;
+        if (cmd !== 'createLink' && cmd !== 'insertUnorderedList') {
+          btn.classList.toggle('active', document.queryCommandState(cmd));
+        }
+      });
+    }
+
+    /* --- File Upload / Drag & Drop --- */
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const browseBtn = document.getElementById('browseBtn');
+    const fileListEl = document.getElementById('fileList');
+    let uploadedFiles = [];
+
+    browseBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      fileInput.click();
+    });
+
+    dropzone.addEventListener('click', () => fileInput.click());
+
+    dropzone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('dragover');
+    });
+
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      addFiles(e.dataTransfer.files);
+    });
+
+    fileInput.addEventListener('change', () => {
+      addFiles(fileInput.files);
+      fileInput.value = '';
+    });
+
+    function addFiles(files) {
+      for (const f of files) uploadedFiles.push(f);
+      renderFileList();
+    }
+
+    function removeFile(index) {
+      uploadedFiles.splice(index, 1);
+      renderFileList();
+    }
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    function renderFileList() {
+      fileListEl.innerHTML = '';
+      uploadedFiles.forEach((f, i) => {
+        const el = document.createElement('div');
+        el.className = 'file-item';
+        el.innerHTML =
+          '<span class="file-item-name">' + f.name + '</span>' +
+          '<span class="file-item-size">' + formatSize(f.size) + '</span>' +
+          '<button class="file-item-remove" title="Remove">&times;</button>';
+        el.querySelector('.file-item-remove').addEventListener('click', () => removeFile(i));
+        fileListEl.appendChild(el);
+      });
+    }
+
+    /* --- Submit animation --- */
     document.getElementById('submitBtn').addEventListener('click', function () {
-      const wrapper = document.getElementById('wrapper');
       const card = document.getElementById('card');
       const formContent = document.getElementById('formContent');
       const successMsg = document.getElementById('successMsg');
       const logoPanel = document.querySelector('.logo-panel');
 
-      // lock card height
       card.style.height = card.offsetHeight + 'px';
       card.style.overflow = 'hidden';
 
-      // fade out form content
       formContent.style.transition = 'opacity 0.25s ease';
       formContent.style.opacity = '0';
 
       setTimeout(() => {
-        // remove form from flow
         formContent.style.display = 'none';
         card.style.padding = '0';
 
-        // measure success msg
         successMsg.style.display = 'flex';
         successMsg.style.opacity = '0';
         const targetH = successMsg.offsetHeight;
 
-        // animate card collapsing + logo fading
         card.style.transition = 'height 0.5s cubic-bezier(0.4,0,0.2,1)';
         card.style.height = targetH + 'px';
 
@@ -313,7 +919,6 @@
         logoPanel.style.paddingTop = '0';
         logoPanel.style.paddingBottom = '0';
 
-        // fade in success text after collapse
         setTimeout(() => {
           successMsg.style.transition = 'opacity 0.4s ease';
           successMsg.style.opacity = '1';
