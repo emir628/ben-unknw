@@ -548,19 +548,19 @@
         <!-- Campaign name -->
         <div class="field">
           <label>Campaign name</label>
-          <input type="text" placeholder="Enter campaign name">
+          <input type="text" id="campaignName" placeholder="Enter campaign name">
         </div>
 
         <!-- Assigner -->
         <div class="field">
           <label>Assigner</label>
-          <input type="text" placeholder="Who is responsible?">
+          <input type="text" id="assigner" placeholder="Who is responsible?">
         </div>
 
         <!-- Purpose -->
         <div class="field">
           <label>What's the purpose</label>
-          <input type="text" placeholder="Describe the purpose">
+          <input type="text" id="purpose" placeholder="Describe the purpose">
         </div>
 
         <!-- Priority toggle -->
@@ -895,12 +895,33 @@
       });
     }
 
-    /* --- Submit animation --- */
+    /* --- Submit: send to Google Sheets + animation --- */
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxj9K9gROnCeL3QDLXrpuF6syTn0eQPHPIbtAYnSo8OGQx_CW4oC1uIw7lx1BH1ul6x/exec';
+
     document.getElementById('submitBtn').addEventListener('click', function () {
       const card = document.getElementById('card');
       const formContent = document.getElementById('formContent');
       const successMsg = document.getElementById('successMsg');
       const logoPanel = document.querySelector('.logo-panel');
+
+      // Collect form data
+      const payload = {
+        campaignName: document.getElementById('campaignName').value,
+        assigner: document.getElementById('assigner').value,
+        purpose: document.getElementById('purpose').value,
+        priority: document.querySelector('input[name="priority"]:checked').value,
+        startDate: document.querySelector('#startTrigger .date-text').textContent,
+        deadline: document.querySelector('#deadlineTrigger .date-text').textContent,
+        details: document.getElementById('rteBody').innerHTML
+      };
+
+      // Send to Google Sheets (fire and forget)
+      fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
       card.style.height = card.offsetHeight + 'px';
       card.style.overflow = 'hidden';
