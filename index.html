@@ -904,23 +904,37 @@
       const successMsg = document.getElementById('successMsg');
       const logoPanel = document.querySelector('.logo-panel');
 
-      // Collect form data
-      const payload = {
-        campaignName: document.getElementById('campaignName').value,
-        assigner: document.getElementById('assigner').value,
-        purpose: document.getElementById('purpose').value,
-        priority: document.querySelector('input[name="priority"]:checked').value,
-        startDate: document.querySelector('#startTrigger .date-text').textContent,
-        deadline: document.querySelector('#deadlineTrigger .date-text').textContent,
-        details: document.getElementById('rteBody').innerHTML
-      };
+      // Convert files to base64, then send everything
+      const filePromises = uploadedFiles.map(f => {
+        return new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = () => resolve({
+            name: f.name,
+            type: f.type,
+            content: reader.result.split(',')[1]
+          });
+          reader.readAsDataURL(f);
+        });
+      });
 
-      // Send to Google Sheets (fire and forget)
-      fetch(SHEET_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+      Promise.all(filePromises).then(files => {
+        const payload = {
+          campaignName: document.getElementById('campaignName').value,
+          assigner: document.getElementById('assigner').value,
+          purpose: document.getElementById('purpose').value,
+          priority: document.querySelector('input[name="priority"]:checked').value,
+          startDate: document.querySelector('#startTrigger .date-text').textContent,
+          deadline: document.querySelector('#deadlineTrigger .date-text').textContent,
+          details: document.getElementById('rteBody').innerHTML,
+          files: files
+        };
+
+        fetch(SHEET_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
       });
 
       card.style.height = card.offsetHeight + 'px';
