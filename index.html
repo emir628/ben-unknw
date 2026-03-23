@@ -930,18 +930,11 @@
           files: files
         };
 
-        var form = document.createElement('form');
-        form.method = 'POST';
-        form.action = SHEET_URL;
-        form.target = 'hidden_iframe';
-        var input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'payload';
-        input.value = JSON.stringify(payload);
-        form.appendChild(input);
-        document.body.appendChild(form);
-        form.submit();
-        document.body.removeChild(form);
+        fetch(SHEET_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
       });
 
       card.style.height = card.offsetHeight + 'px';
